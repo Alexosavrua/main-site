@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JustAlex | Projects</title>
+    <meta name="description" content="Explore projects by JustAlex - interactive web tools and applications.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="projects.css">
+
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">JustAlex</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="projects.html" style="color:#fff">Projects</a></li>
+                <li><a href="index.html#about">About</a></li>
+                <li><a href="login.html" class="nav-btn">Log In</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Page Hero -->
+        <section class="page-hero">
+            <div class="hero-background"></div>
+            <div class="container page-hero-content">
+                <span class="badge">Open Source &amp; Web Tools</span>
+                <h1 class="page-title">My <span class="text-gradient">Projects</span></h1>
+                <p class="page-subtitle">A collection of useful tools and applications you can use directly in your
+                    browser.</p>
+
+                <div class="filter-bar">
+                    <button class="filter-btn active" data-filter="all" id="filter-all">All</button>
+                    <button class="filter-btn" data-filter="tool" id="filter-tool">Tools</button>
+                    <button class="filter-btn" data-filter="web" id="filter-web">Web</button>
+                    <button class="filter-btn" data-filter="python" id="filter-python">Python</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Grid -->
+        <section class="projects-section">
+            <div class="container">
+                <div class="project-grid" id="project-grid">
+
+                    <!-- ── Password Generator Card ── -->
+                    <article class="project-card" data-tags="tool python">
+                        <div class="project-content">
+                            <div class="card-top">
+                                <h3>Password Generator</h3>
+                                <span class="status-dot">Live</span>
+                            </div>
+                            <p>A secure, customisable password generator. Choose length, character sets, and generate
+                                strong passwords instantly — all in your browser.</p>
+                            <div class="tags">
+                                <span>JavaScript</span>
+                                <span>Security</span>
+                                <span>Tool</span>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn btn-primary" id="open-pwgen"
+                                    onclick="openModal('modal-pwgen')">Launch App ↗</button>
+                                <a href="https://github.com/Alexosavrua/PasswordGenerator" target="_blank"
+                                    rel="noopener" class="btn btn-outline">GitHub (Python)</a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- ── Placeholder Card (Coming Soon) ── -->
+                    <article class="project-card" data-tags="web" style="opacity:0.55; pointer-events:none;">
+                        <div class="project-content">
+                            <div class="card-top">
+                                <h3>Next Project</h3>
+                                <span
+                                    style="font-size:0.72rem;color:var(--text-dim);font-weight:600;text-transform:uppercase;letter-spacing:.05em">Soon</span>
+                            </div>
+                            <p>Something new is coming. Stay tuned for more tools and projects.</p>
+                            <div class="tags">
+                                <span>TBD</span>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn btn-outline" disabled>Coming Soon</button>
+                            </div>
+                        </div>
+                    </article>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <p>© 2026 JustAlex. All rights reserved.</p>
+                <div class="social-links">
+                    <a href="https://github.com/Alexosavrua">GitHub</a>
+                    <a href="https://discord.gg/G62B3vw6xe">Discord</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ══════════════════════════════
+         Password Generator Modal
+    ══════════════════════════════ -->
+    <div class="modal-overlay" id="modal-pwgen" role="dialog" aria-modal="true" aria-labelledby="pwgen-title">
+        <div class="modal">
+            <button class="modal-close" onclick="closeModal('modal-pwgen')" aria-label="Close">✕</button>
+            <h2 id="pwgen-title">Password Generator</h2>
+            <p>Customise the options below and click Generate.</p>
+
+            <div class="pwgen">
+
+                <!-- Output -->
+                <div class="pwgen-output-row">
+                    <div class="pwgen-output" id="pwgen-output">Click Generate →</div>
+                    <button class="pwgen-copy-btn" id="pwgen-copy-btn" onclick="copyPassword()" title="Copy password"
+                        aria-label="Copy password">
+                        Copy
+                    </button>
+                </div>
+
+                <!-- Strength -->
+                <div class="pwgen-strength" id="pwgen-strength" style="display:none">
+                    <div class="strength-bars" id="pwgen-strength-bars">
+                        <div class="strength-bar" id="sb1"></div>
+                        <div class="strength-bar" id="sb2"></div>
+                        <div class="strength-bar" id="sb3"></div>
+                        <div class="strength-bar" id="sb4"></div>
+                    </div>
+                    <span class="strength-label" id="pwgen-strength-label"></span>
+                </div>
+
+                <!-- Length slider -->
+                <div class="pwgen-slider-wrap">
+                    <div class="pwgen-slider-header">
+                        <label for="pwgen-length">Password Length</label>
+                        <span class="pwgen-length-val" id="pwgen-length-val">16</span>
+                    </div>
+                    <input type="range" id="pwgen-length" class="pwgen-slider" min="4" max="64" value="16"
+                        oninput="document.getElementById('pwgen-length-val').textContent = this.value">
+                </div>
+
+                <!-- Options -->
+                <div class="pwgen-options">
+                    <label class="pwgen-option active" id="opt-lower">
+                        <input type="checkbox" id="cb-lower" checked onchange="toggleOption(this, 'opt-lower')">
+                        <span class="pwgen-option-label">Lowercase (a–z)</span>
+                    </label>
+                    <label class="pwgen-option active" id="opt-upper">
+                        <input type="checkbox" id="cb-upper" checked onchange="toggleOption(this, 'opt-upper')">
+                        <span class="pwgen-option-label">Uppercase (A–Z)</span>
+                    </label>
+                    <label class="pwgen-option active" id="opt-numbers">
+                        <input type="checkbox" id="cb-numbers" checked onchange="toggleOption(this, 'opt-numbers')">
+                        <span class="pwgen-option-label">Numbers (0–9)</span>
+                    </label>
+                    <label class="pwgen-option active" id="opt-symbols">
+                        <input type="checkbox" id="cb-symbols" checked onchange="toggleOption(this, 'opt-symbols')">
+                        <span class="pwgen-option-label">Symbols (@#%*…)</span>
+                    </label>
+                </div>
+
+                <!-- Generate button -->
+                <button class="pwgen-generate-btn" onclick="generatePassword()">
+                    Generate Password
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        /* ── Modal helpers ── */
+        function openModal(id) {
+            const overlay = document.getElementById(id);
+            overlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(id) {
+            const overlay = document.getElementById(id);
+            overlay.classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        // Close on backdrop click
+        document.querySelectorAll('.modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', e => {
+                if (e.target === overlay) closeModal(overlay.id);
+            });
+        });
+
+        // Close on Escape
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal-overlay.open').forEach(o => closeModal(o.id));
+            }
+        });
+
+        /* ── Password Generator ── */
+        const LOWER = 'abcdefghijklmnopqrstuvwxyz';
+        const UPPER = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const NUMBERS = '0123456789';
+        const SYMBOLS = '@#%*-_=+<>?/!$^&';
+
+        function generatePassword() {
+            const length = parseInt(document.getElementById('pwgen-length').value);
+            const useLower = document.getElementById('cb-lower').checked;
+            const useUpper = document.getElementById('cb-upper').checked;
+            const useNumbers = document.getElementById('cb-numbers').checked;
+            const useSymbols = document.getElementById('cb-symbols').checked;
+
+            let pool = '';
+            if (useLower) pool += LOWER;
+            if (useUpper) pool += UPPER;
+            if (useNumbers) pool += NUMBERS;
+            if (useSymbols) pool += SYMBOLS;
+
+            if (!pool) {
+                document.getElementById('pwgen-output').textContent = '⚠ Select at least one option';
+                return;
+            }
+
+            // Cryptographically random using Web Crypto API
+            const arr = new Uint32Array(length);
+            crypto.getRandomValues(arr);
+            const password = Array.from(arr, n => pool[n % pool.length]).join('');
+
+            document.getElementById('pwgen-output').textContent = password;
+
+            // Reset copy button
+            const copyBtn = document.getElementById('pwgen-copy-btn');
+            copyBtn.textContent = '📋';
+            copyBtn.classList.remove('copied');
+
+            updateStrength(password, pool.length);
+        }
+
+        function copyPassword() {
+            const pwd = document.getElementById('pwgen-output').textContent;
+            if (!pwd || pwd.startsWith('⚠') || pwd === 'Click Generate →') return;
+
+            navigator.clipboard.writeText(pwd).then(() => {
+                const btn = document.getElementById('pwgen-copy-btn');
+                btn.textContent = '✅';
+                btn.classList.add('copied');
+                setTimeout(() => {
+                    btn.textContent = '📋';
+                    btn.classList.remove('copied');
+                }, 2000);
+            });
+        }
+
+        function toggleOption(checkbox, labelId) {
+            const label = document.getElementById(labelId);
+            if (checkbox.checked) {
+                label.classList.add('active');
+            } else {
+                label.classList.remove('active');
+            }
+        }
+
+        function updateStrength(password, poolSize) {
+            const len = password.length;
+            // Entropy bits ≈ log2(poolSize^len) = len * log2(poolSize)
+            const entropy = len * Math.log2(poolSize);
+
+            let level, labelText, colour;
+            if (entropy < 36) { level = 1; labelText = 'Weak'; colour = 'lit-weak'; }
+            else if (entropy < 60) { level = 2; labelText = 'Fair'; colour = 'lit-fair'; }
+            else if (entropy < 90) { level = 3; labelText = 'Good'; colour = 'lit-good'; }
+            else { level = 4; labelText = 'Strong'; colour = 'lit-strong'; }
+
+            const strengthEl = document.getElementById('pwgen-strength');
+            strengthEl.style.display = 'flex';
+
+            for (let i = 1; i <= 4; i++) {
+                const bar = document.getElementById('sb' + i);
+                bar.className = 'strength-bar';
+                if (i <= level) bar.classList.add(colour);
+            }
+            document.getElementById('pwgen-strength-label').textContent = labelText;
+        }
+
+        /* ── Category filter ── */
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const filter = btn.dataset.filter;
+                document.querySelectorAll('#project-grid .project-card').forEach(card => {
+                    const tags = card.dataset.tags || '';
+                    if (filter === 'all' || tags.includes(filter)) {
+                        card.style.display = '';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

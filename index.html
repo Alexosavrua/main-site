@@ -22,7 +22,7 @@
             <a href="#" class="logo">JustAlex</a>
             <ul class="nav-links">
                 <li><a href="#home">Home</a></li>
-                <li><a href="#projects">Work</a></li>
+                <li><a href="projects.html">Projects</a></li>
                 <li><a href="#about">About</a></li>
                 <li><a href="login.html" class="nav-btn">Log In</a></li>
             </ul>
@@ -42,58 +42,6 @@
                 </div>
             </div>
             <div class="hero-background"></div>
-        </section>
-
-        <section id="projects" class="section">
-            <div class="container">
-                <div class="section-header">
-                    <h2>Selected Work</h2>
-                    <p>A collection of projects exploring performance and design.</p>
-                </div>
-                <div class="project-grid">
-                    <!-- Project 1 -->
-                    <article class="project-card">
-                        <div class="project-image"></div>
-                        <div class="project-content">
-                            <h3>E-Commerce Dashboard</h3>
-                            <p>A comprehensive dashboard for managing online stores with real-time analytics.</p>
-                            <div class="tags">
-                                <span>React</span>
-                                <span>Node.js</span>
-                            </div>
-                            <a href="#" class="link-arrow">View Case Study &rarr;</a>
-                        </div>
-                    </article>
-
-                    <!-- Project 2 -->
-                    <article class="project-card">
-                        <div class="project-image"></div>
-                        <div class="project-content">
-                            <h3>Task Management App</h3>
-                            <p>Streamlining team productivity with an intuitive drag-and-drop interface.</p>
-                            <div class="tags">
-                                <span>TypeScript</span>
-                                <span>Firebase</span>
-                            </div>
-                            <a href="#" class="link-arrow">View Case Study &rarr;</a>
-                        </div>
-                    </article>
-
-                    <!-- Project 3 -->
-                    <article class="project-card">
-                        <div class="project-image"></div>
-                        <div class="project-content">
-                            <h3>Portfolio Template</h3>
-                            <p>A clean, minimal portfolio template for creative professionals.</p>
-                            <div class="tags">
-                                <span>HTML/CSS</span>
-                                <span>JavaScript</span>
-                            </div>
-                            <a href="#" class="link-arrow">View Case Study &rarr;</a>
-                        </div>
-                    </article>
-                </div>
-            </div>
         </section>
 
         <section id="about" class="section bg-secondary">
@@ -125,7 +73,7 @@
                         <h2>Let's work together</h2>
                         <p>Have a project in mind? Send me a message and let's discuss.</p>
                     </div>
-                    <form class="clean-form">
+                    <form class="clean-form" id="contact-form">
                         <div class="form-group">
                             <label for="name">Name</label>
                             <input type="text" id="name" placeholder="John Doe" required>
@@ -139,7 +87,9 @@
                             <textarea id="message" rows="5" placeholder="Tell me about your project..."
                                 required></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary">Send Message</button>
+                        <button type="submit" class="btn btn-primary" id="contact-submit">Send Message</button>
+                        <p id="contact-status"
+                            style="display:none;margin-top:0.75rem;font-size:0.9rem;text-align:center;"></p>
                     </form>
                 </div>
             </div>
@@ -159,6 +109,61 @@
     </footer>
 
     <script src="script.js"></script>
+    <script>
+        const DISCORD_WEBHOOK = 'https://discord.com/api/webhooks/1474323597521846272/Owa48-uZToCvI0gDTngCmk-IIRmmkHFrRiJftVFK0rmoTJqDuZr0w6V2aIttGbIcUHJu';
+
+        document.getElementById('contact-form').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const message = document.getElementById('message').value.trim();
+            const btn = document.getElementById('contact-submit');
+            const status = document.getElementById('contact-status');
+
+            btn.disabled = true;
+            btn.textContent = 'Sending...';
+            status.style.display = 'none';
+
+            const payload = {
+                embeds: [{
+                    title: '📬 New Contact Form Message',
+                    color: 0x8b5cf6,
+                    fields: [
+                        { name: '👤 Name', value: name, inline: true },
+                        { name: '📧 Email', value: email, inline: true },
+                        { name: '💬 Message', value: message, inline: false }
+                    ],
+                    footer: { text: 'JustAlex Portfolio · justalexdev.com' },
+                    timestamp: new Date().toISOString()
+                }]
+            };
+
+            try {
+                const res = await fetch(DISCORD_WEBHOOK, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (res.ok) {
+                    status.textContent = '✅ Message sent! I\'ll get back to you soon.';
+                    status.style.color = '#34d399';
+                    this.reset();
+                } else {
+                    throw new Error('Webhook returned ' + res.status);
+                }
+            } catch (err) {
+                status.textContent = '❌ Something went wrong. Please try again.';
+                status.style.color = '#f87171';
+                console.error(err);
+            } finally {
+                status.style.display = 'block';
+                btn.disabled = false;
+                btn.textContent = 'Send Message';
+            }
+        });
+    </script>
 </body>
 
 </html>
